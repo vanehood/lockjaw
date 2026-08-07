@@ -76,7 +76,8 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--magenta);outline-of
 }
 .addr:hover{color:var(--link-hover);box-shadow:1px 1px 0 var(--shadow-lav);transform:translate(1px,1px)}
 .addr .short{display:none}
-.addr-hero{padding:11px 14px;font-size:11px;word-break:break-all;line-height:1.35}
+.addr-hero{padding:11px 14px;font-size:11px;word-break:break-all;line-height:1.35;cursor:default}
+.addr-hero:hover{color:var(--text-strong);box-shadow:2px 2px 0 var(--shadow-lav);transform:none}
 .addr-hero .full,.addr-hero .short{display:inline}
 @media (max-width:1080px){
   .addr .full{display:none}
@@ -233,10 +234,14 @@ footer{border-top:2px solid var(--ink);background:var(--surface);padding:26px 0 
       <div class="acts">
         <a class="btn btn-pink" href="#">Stake JAW</a>
         <a class="btn" href="#mech">How it works</a>
-        <a class="addr addr-hero" href="https://robinhoodchain.blockscout.com/address/0x02E282505b96BF55Ef5772035b01Cfa61702db44" target="_blank" rel="noopener">
+        <a class="btn" href="https://x.com/sayinshallah" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+          Dev
+        </a>
+        <span class="addr addr-hero">
           <i class="dot" style="background:var(--magenta)"></i>
           0x02E282505b96BF55Ef5772035b01Cfa61702db44
-        </a>
+        </span>
       </div>
     </div>
 
