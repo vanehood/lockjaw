@@ -3,382 +3,404 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Lockjaw / Drawing 4663</title>
-<meta name="description" content="Lockjaw. A reserve token on Robinhood Chain with OHM mechanisms built in. Stake, bond, rebase every eight hours.">
+<title>Lockjaw — a rebase token with OHM mechanisms built in</title>
+<meta name="description" content="Stake JAW, receive sJAW, and let the supply rebase every eight hours. OHM mechanisms built in, live on Robinhood Chain 4663.">
+<meta name="theme-color" content="#FBF3FE">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;500;600;700&family=Barlow:wght@300;400;500&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@400;500;600;700&family=Silkscreen:wght@400;700&display=swap" rel="stylesheet">
 <style>
 :root{
-  --sheet:#111A15;
-  --sheet-2:#18241D;
-  --line:#5F8271;
-  --line-soft:rgba(146,180,160,.28);
-  --line-faint:rgba(146,180,160,.12);
-  --chalk:#E9E4D5;
-  --chalk-dim:#94A899;
-  --mark:#C89B3C;
+  --page-bg:#f3e7f8;
+  --surface:#fbf3fe;
+  --card:#fff;
+  --ink:#21103a;
+  --magenta:#f50db4;
+  --pink:#fc72ff;
+  --link-hover:#b90886;
+  --text-strong:#5a3b77;
+  --text-mid:#6b4a85;
+  --text-muted:#8a6ba6;
+  --divider:#eed9f6;
+  --divider-faint:#f6ecfa;
+  --dashed:#c79bdd;
+  --shadow-lav:#dcc2e8;
+  --chip-lilac:#f6dffb;
+  --params-border:#e7cdf2;
+  --spotlight-bg:#ffe1fd;
+
+  --jaw-top:#ff7ee6; --jaw-side:#f50db4; --jaw-dark:#a80879;
+  --stake-top:#7ea5ff; --stake-side:#4c82fb; --stake-dark:#2f56b8;
+  --bond-top:#ffb25c; --bond-side:#ff8a00; --bond-dark:#bd5f00;
+  --trez-top:#74d695; --trez-side:#40b66b; --trez-dark:#23824a;
+
+  --cream:#fff7db; --cream-line:#e8d9a8; --cream-copy:#6b5a20; --cream-label:#8a6b00;
 }
-*{box-sizing:border-box}
-html{-webkit-text-size-adjust:100%}
+*{box-sizing:border-box;border-radius:0}
+html{-webkit-text-size-adjust:100%;scroll-behavior:smooth}
 body{
-  margin:0;
-  background:var(--sheet);
-  color:var(--chalk);
-  font-family:'Barlow',system-ui,sans-serif;
-  font-weight:300;
-  font-size:16.5px;
-  line-height:1.65;
-  background-image:
-    linear-gradient(var(--line-faint) 1px,transparent 1px),
-    linear-gradient(90deg,var(--line-faint) 1px,transparent 1px);
-  background-size:38px 38px;
+  margin:0;background:var(--page-bg);color:var(--ink);
+  font-family:'Chakra Petch',system-ui,sans-serif;font-weight:400;
+  font-size:16px;line-height:1.6;
 }
 a{color:inherit}
-a:focus-visible{outline:2px solid var(--mark);outline-offset:3px}
+a:focus-visible,button:focus-visible{outline:2px solid var(--magenta);outline-offset:3px}
+.wrap{max-width:1180px;margin:0 auto;padding:0 24px}
+.px{font-family:'Silkscreen',monospace}
 
-.cond{font-family:'Barlow Condensed',sans-serif;text-transform:uppercase;letter-spacing:.045em}
-.tag{font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:.12em;
-  text-transform:uppercase;color:var(--chalk-dim)}
-
-/* ---------- drawing sheet ---------- */
-.sheet{
-  max-width:1160px;margin:26px auto 40px;
-  border:1px solid var(--line);
-  position:relative;
-  background:rgba(17,26,21,.74);
+/* ---------- nav ---------- */
+.nav{border-bottom:2px solid var(--ink);background:var(--surface);position:sticky;top:0;z-index:50}
+.nav .wrap{display:flex;align-items:center;gap:26px;height:66px}
+.logo{font-family:'Silkscreen',monospace;font-weight:700;font-size:19px;color:var(--magenta);
+  text-decoration:none;letter-spacing:.02em}
+.nav a.lnk{font-size:14px;color:var(--text-mid);text-decoration:none;font-weight:500}
+.nav a.lnk:hover{color:var(--link-hover)}
+.nav .right{margin-left:auto;display:flex;align-items:center;gap:12px}
+.btn{
+  display:inline-flex;align-items:center;gap:8px;
+  font-family:'Chakra Petch',sans-serif;font-weight:600;font-size:14px;
+  padding:10px 18px;text-decoration:none;border:2px solid var(--ink);
+  background:var(--card);color:var(--ink);box-shadow:3px 3px 0 var(--ink);
+  transition:transform .1s ease,box-shadow .1s ease;
 }
-.sheet::before{
-  content:"";position:absolute;inset:7px;border:1px solid var(--line-soft);
-  pointer-events:none;
+.btn:hover{transform:translate(1px,1px);box-shadow:2px 2px 0 var(--ink)}
+.btn:active{transform:translate(3px,3px);box-shadow:0 0 0 var(--ink)}
+.btn-pink{background:var(--magenta);color:#fff}
+.btn svg{width:14px;height:14px;fill:currentColor}
+
+/* ---------- chips ---------- */
+.chips{display:flex;flex-wrap:wrap;gap:10px}
+.chip{
+  display:inline-flex;align-items:center;gap:8px;background:var(--chip-lilac);
+  border:1px solid var(--params-border);padding:6px 11px;
+  font-family:'Silkscreen',monospace;font-size:10px;color:var(--text-strong);
+  letter-spacing:.02em;
 }
-.zone{
-  display:flex;justify-content:space-between;
-  padding:0 22px;height:22px;align-items:center;
-  border-bottom:1px solid var(--line-soft);
+.dot{width:9px;height:9px;display:inline-block}
+
+/* ---------- hero ---------- */
+.hero{padding:56px 0 46px}
+.hero-grid{display:grid;grid-template-columns:1.05fr .95fr;gap:52px;align-items:start}
+h1{
+  font-size:clamp(40px,5.6vw,66px);line-height:1.02;margin:22px 0 0;
+  font-weight:700;letter-spacing:-.015em;
 }
-.zone span{font-family:'IBM Plex Mono',monospace;font-size:9.5px;color:var(--chalk-dim);
-  letter-spacing:.2em}
-.pad{padding:0 40px}
+h1 span{color:var(--magenta)}
+.hero p.sub{font-size:17px;color:var(--text-mid);max-width:52ch;margin:22px 0 0}
+.hero p.sub b{color:var(--ink);font-weight:600}
+.hero .acts{display:flex;gap:12px;flex-wrap:wrap;margin-top:28px}
 
-/* ---------- header row ---------- */
-.head{display:flex;align-items:flex-end;justify-content:space-between;gap:24px;
-  flex-wrap:wrap;padding-top:34px;padding-bottom:18px;
-  border-bottom:1px solid var(--line);}
-.title{font-family:'Barlow Condensed',sans-serif;font-weight:700;text-transform:uppercase;
-  font-size:clamp(52px,10.5vw,124px);line-height:.84;letter-spacing:.02em;margin:0}
-.title em{font-style:normal;color:var(--line)}
-.head .rev{text-align:right}
-.head .rev div{font-family:'IBM Plex Mono',monospace;font-size:10.5px;color:var(--chalk-dim);
-  letter-spacing:.1em;line-height:1.9}
-.head .rev b{color:var(--chalk);font-weight:500}
+/* ---------- clamp panel ---------- */
+.panel{background:var(--card);border:2px solid var(--ink);box-shadow:5px 5px 0 var(--shadow-lav)}
+.panel-h{
+  display:flex;justify-content:space-between;align-items:center;gap:12px;
+  padding:11px 16px;border-bottom:2px solid var(--ink);background:var(--surface);
+  font-family:'Silkscreen',monospace;font-size:10px;color:var(--text-strong);
+}
+.panel-b{padding:22px 20px 24px}
+.clampbox{position:relative;background:var(--spotlight-bg);border:1px solid var(--params-border);
+  padding:0;overflow:hidden}
+.clampbox svg{display:block;width:100%;height:auto}
+.jaw-top{fill:var(--jaw-top)}
+.jaw-side{fill:var(--jaw-side)}
+.jaw-dark{fill:var(--jaw-dark)}
+.jaw-line{stroke:var(--ink);stroke-width:2.5;fill:none;stroke-linejoin:round}
+.readout{position:absolute;left:0;right:0;top:50%;transform:translateY(-50%);text-align:center;pointer-events:none}
+.readout .num{font-family:'Chakra Petch',sans-serif;font-weight:700;
+  font-size:clamp(26px,4.4vw,42px);line-height:1;font-variant-numeric:tabular-nums;
+  transition:color .25s ease}
+.readout .cap{font-family:'Silkscreen',monospace;font-size:9px;color:var(--text-muted);margin-top:7px}
+.snap .num{color:var(--magenta)}
+.panel-rows{display:grid;grid-template-columns:1fr 1fr;gap:0;margin-top:18px;
+  border:1px solid var(--params-border)}
+.prow{padding:12px 14px;border-right:1px solid var(--params-border)}
+.prow:last-child{border-right:0}
+.prow .k{font-family:'Silkscreen',monospace;font-size:9px;color:var(--text-muted)}
+.prow .v{font-weight:700;font-size:22px;margin-top:5px;font-variant-numeric:tabular-nums}
+.note{font-size:12px;color:var(--text-muted);margin-top:14px;line-height:1.5}
 
-/* ---------- description ---------- */
-.desc{display:grid;grid-template-columns:150px 1fr;gap:30px;
-  padding-top:26px;padding-bottom:30px;border-bottom:1px solid var(--line-soft)}
-.desc p{margin:0;max-width:62ch;font-size:18px;line-height:1.6}
-.desc p b{font-weight:500;color:var(--mark)}
+/* ---------- marquee ---------- */
+.marq{border-top:2px solid var(--ink);border-bottom:2px solid var(--ink);
+  background:var(--magenta);color:#fff;overflow:hidden;padding:9px 0}
+.marq-in{display:flex;gap:0;width:max-content;animation:slide 26s linear infinite}
+.marq span{font-family:'Silkscreen',monospace;font-size:11px;padding:0 20px;white-space:nowrap}
+@keyframes slide{from{transform:translateX(0)}to{transform:translateX(-50%)}}
 
-/* ---------- drawing view ---------- */
-.view{padding-top:34px;padding-bottom:34px;position:relative}
-.view-head{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;margin-bottom:20px}
-.figure{position:relative}
-.figure svg{width:100%;height:auto;display:block;overflow:visible}
-.ln{stroke:var(--line);fill:none;stroke-width:1.4}
-.ln-th{stroke:var(--chalk);fill:none;stroke-width:2}
-.ln-dim{stroke:var(--line-soft);fill:none;stroke-width:1;stroke-dasharray:5 4}
-.ln-lead{stroke:var(--mark);fill:none;stroke-width:1}
-.hatch{fill:url(#hatch)}
-.svgtext{font-family:'IBM Plex Mono',monospace;font-size:11px;fill:var(--chalk-dim);letter-spacing:.08em}
-.svgtext.mk{fill:var(--mark)}
-.balloon{fill:none;stroke:var(--mark);stroke-width:1}
-.balloon-t{font-family:'IBM Plex Mono',monospace;font-size:11px;fill:var(--mark);text-anchor:middle}
+/* ---------- sections ---------- */
+section{padding:74px 0}
+.sec-h{display:flex;align-items:baseline;gap:14px;margin-bottom:10px}
+.sec-n{font-family:'Silkscreen',monospace;font-size:11px;color:#fff;background:var(--ink);
+  padding:5px 8px}
+.sec-t{font-family:'Silkscreen',monospace;font-size:11px;color:var(--text-muted)}
+h2{font-size:clamp(28px,3.6vw,40px);line-height:1.1;font-weight:700;margin:0 0 14px;letter-spacing:-.01em}
+.lead{color:var(--text-mid);max-width:66ch;margin:0 0 36px;font-size:16.5px}
 
-.readout{position:absolute;left:0;right:0;top:50%;transform:translateY(-50%);
-  text-align:center;pointer-events:none}
-.readout .num{font-family:'Barlow Condensed',sans-serif;font-weight:700;
-  font-size:clamp(34px,6.6vw,80px);line-height:.9;font-variant-numeric:tabular-nums;
-  letter-spacing:.02em;transition:color .3s ease}
-.readout .cap{font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--chalk-dim);
-  letter-spacing:.16em;margin-top:8px;text-transform:uppercase}
-.snap .num{color:var(--mark)}
+/* ---------- mechanism cards ---------- */
+.cards{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+.card{background:var(--card);border:2px solid var(--ink);box-shadow:4px 4px 0 var(--shadow-lav);
+  padding:20px 18px 22px;display:flex;flex-direction:column}
+.card .cubewrap{display:flex;align-items:center;justify-content:space-between}
+.card svg.cube{width:64px;height:64px;display:block}
+.card .idx{font-family:'Silkscreen',monospace;font-size:11px;color:var(--text-muted)}
+.card h3{font-size:23px;font-weight:700;margin:16px 0 8px}
+.card p{margin:0;font-size:14.5px;color:var(--text-mid)}
+.card p + p{margin-top:10px}
+.card .foot{margin-top:16px;padding-top:12px;border-top:1px dashed var(--dashed);
+  font-family:'Silkscreen',monospace;font-size:9px;color:var(--text-muted)}
 
+/* ---------- read first ---------- */
+.readfirst{margin-top:44px;background:var(--cream);border:2px solid var(--ink);
+  box-shadow:5px 5px 0 var(--cream-line)}
+.readfirst .rh{padding:11px 18px;border-bottom:2px solid var(--ink);
+  font-family:'Silkscreen',monospace;font-size:10px;color:var(--cream-label)}
+.readfirst .rb{padding:22px 20px 24px}
+.readfirst p{margin:0 0 14px;color:var(--cream-copy);font-size:15.5px;max-width:76ch}
+.readfirst p:last-child{margin:0}
+.readfirst b{color:#3d3208;font-weight:700}
 
-/* ---------- notes ---------- */
-.notes{padding-top:44px;padding-bottom:10px;border-top:1px solid var(--line);margin-top:30px}
-.note{display:grid;grid-template-columns:56px 190px 1fr;gap:24px;
-  padding:26px 0;border-bottom:1px solid var(--line-faint);align-items:start}
-.note .no{font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--mark);
-  letter-spacing:.1em;padding-top:6px}
-.note h3{font-family:'Barlow Condensed',sans-serif;font-weight:600;text-transform:uppercase;
-  font-size:31px;line-height:1;margin:0;letter-spacing:.05em}
-.note p{margin:0;color:#CBD8CE;max-width:60ch}
-.note p + p{margin-top:12px}
+/* ---------- params ---------- */
+.params{border:2px solid var(--ink);background:var(--card);box-shadow:5px 5px 0 var(--shadow-lav)}
+.params table{width:100%;border-collapse:collapse}
+.params td{padding:13px 18px;border-bottom:1px solid var(--divider);font-size:15px}
+.params tr:last-child td{border-bottom:0}
+.params td:first-child{font-family:'Silkscreen',monospace;font-size:9.5px;color:var(--text-muted);width:38%}
+.params td:last-child{text-align:right;font-weight:600}
+.params td em{font-style:normal;color:var(--text-muted);font-weight:400;font-size:13.5px}
+.params td b{color:var(--magenta)}
+.xl{display:inline-flex;align-items:center;gap:7px;text-decoration:none;color:var(--magenta)}
+.xl:hover{color:var(--link-hover)}
+.xl svg{width:13px;height:13px;fill:currentColor}
 
-/* ---------- caution ---------- */
-.caution{margin-top:38px;border:1px solid var(--mark);position:relative}
-.caution-h{background:var(--mark);color:#111A15;padding:9px 18px;
-  font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:.22em;text-transform:uppercase}
-.caution-b{padding:26px 22px 28px}
-.caution-b ol{margin:0;padding:0 0 0 26px;list-style:none;counter-reset:c}
-.caution-b li{counter-increment:c;position:relative;padding:0 0 16px 0;font-size:16px;color:#CBD8CE}
-.caution-b li:last-child{padding-bottom:0}
-.caution-b li::before{content:counter(c,decimal-leading-zero);position:absolute;left:-26px;top:2px;
-  font-family:'IBM Plex Mono',monospace;font-size:10.5px;color:var(--mark)}
-.caution-b b{font-weight:500;color:var(--chalk)}
-
-/* ---------- schedule table ---------- */
-.sched{margin-top:52px}
-.sched table{width:100%;border-collapse:collapse}
-.sched caption{text-align:left;padding-bottom:12px}
-.sched th,.sched td{padding:11px 14px;border:1px solid var(--line-soft);
-  font-family:'IBM Plex Mono',monospace;font-size:13px}
-.sched thead th{background:rgba(95,130,113,.18);font-weight:500;font-size:10px;
-  letter-spacing:.16em;text-transform:uppercase;color:var(--chalk-dim);text-align:left}
-.sched td:first-child{color:var(--chalk-dim);width:34%}
-.sched td em{font-style:normal;color:var(--chalk-dim)}
-.sched td b{font-weight:500;color:var(--mark)}
-
-/* ---------- title block ---------- */
-.tblock{margin-top:54px;display:grid;grid-template-columns:1fr 1fr 1fr 1.2fr;
-  border-top:1px solid var(--line);border-left:1px solid var(--line)}
-.cell{border-right:1px solid var(--line);border-bottom:1px solid var(--line);padding:13px 15px 15px}
-.cell .k{font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.2em;
-  text-transform:uppercase;color:var(--chalk-dim)}
-.cell .v{font-family:'Barlow Condensed',sans-serif;text-transform:uppercase;font-weight:600;
-  font-size:20px;letter-spacing:.05em;margin-top:5px;line-height:1.1}
-.cell.wide{grid-column:span 1}
-.xlink{display:inline-flex;align-items:center;gap:7px;text-decoration:none}
-.xlink:hover{color:var(--mark)}
-.xlink svg{width:13px;height:13px;fill:currentColor;flex:none}
-.foot{display:flex;justify-content:space-between;gap:14px;flex-wrap:wrap;
-  padding:16px 40px 26px}
+/* ---------- footer ---------- */
+footer{border-top:2px solid var(--ink);background:var(--surface);padding:26px 0 40px}
+.fl{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;
+  font-size:13px;color:var(--text-muted)}
+.fl a{text-decoration:none}
+.fl a:hover{color:var(--link-hover)}
 
 @media (max-width:900px){
-  .desc{grid-template-columns:1fr;gap:12px}
-  .note{grid-template-columns:44px 1fr;gap:16px}
-  .note h3{grid-column:2}
-  .note div{grid-column:2}
-  .tblock{grid-template-columns:1fr 1fr}
-  .pad{padding:0 22px}
-  .foot{padding:16px 22px 26px}
-  .sheet{margin:12px auto 26px}
-  .zone{padding:0 14px}
+  .hero-grid{grid-template-columns:1fr;gap:34px}
+  .cards{grid-template-columns:1fr}
+  section{padding:52px 0}
+  .nav a.lnk{display:none}
 }
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 </style>
 </head>
 <body>
 
-<div class="sheet">
-
-  <div class="zone">
-    <span>A</span><span>B</span><span>C</span><span>D</span><span>E</span><span>F</span>
+<nav class="nav">
+  <div class="wrap">
+    <a class="logo" href="#">LOCKJAW_</a>
+    <a class="lnk" href="#mech">Mechanisms</a>
+    <a class="lnk" href="#params">Parameters</a>
+    <div class="right">
+      <a class="btn btn-pink" href="#">Stake JAW</a>
+    </div>
   </div>
+</nav>
 
-  <div class="pad">
-
-    <div class="head">
-      <h1 class="title">Lock<em>jaw</em></h1>
-      <div class="rev">
-        <div>DWG <b>LOCKJAW-01</b></div>
-        <div>CHAIN <b>4663</b></div>
-        <div>SCALE <b>NTS</b></div>
+<header class="hero">
+  <div class="wrap hero-grid">
+    <div>
+      <div class="chips">
+        <span class="chip"><i class="dot" style="background:var(--magenta)"></i>Live on Robinhood Chain 4663</span>
+        <span class="chip"><i class="dot" style="background:var(--stake-side)"></i>OHM mechanisms built in</span>
+      </div>
+      <h1>Stake once. The supply <span>rebases every 8 hours.</span></h1>
+      <p class="sub">Lockjaw is a reserve token running the OHM mechanism set: staking, bonding, and a treasury backed floor. Deposit JAW, hold sJAW, and <b>the balance grows on its own</b> every epoch. Nothing to claim, nothing to harvest.</p>
+      <div class="acts">
+        <a class="btn btn-pink" href="#">Stake JAW</a>
+        <a class="btn" href="#mech">How it works</a>
       </div>
     </div>
 
-    <div class="desc">
-      <div class="tag">Description</div>
-      <p>A reserve token on Robinhood Chain with <b>OHM mechanisms built in</b>. Staking, bonding, and a treasury backed floor, with supply rebasing every eight hours. Stake once and the balance grows on its own.</p>
-    </div>
-
-    <div class="view">
-      <div class="view-head">
-        <span class="tag">Fig. 1 / Clamp assembly, front elevation</span>
-        <span class="tag" id="epochNo">Cycle 0001</span>
+    <div class="panel">
+      <div class="panel-h">
+        <span>THE CLAMP</span>
+        <span id="epochNo">EPOCH 0001</span>
       </div>
-
-      <div class="figure">
-        <svg viewBox="0 0 1000 340" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-          <defs>
-            <pattern id="hatch" width="7" height="7" patternTransform="rotate(45)" patternUnits="userSpaceOnUse">
-              <line x1="0" y1="0" x2="0" y2="7" stroke="rgba(146,180,160,.34)" stroke-width="1"/>
-            </pattern>
-          </defs>
-
-          <!-- centre line -->
-          <line class="ln-dim" x1="500" y1="0" x2="500" y2="340"/>
-
-          <!-- dimension, overall width -->
-          <line class="ln-dim" x1="60" y1="14" x2="940" y2="14"/>
-          <path class="ln-dim" d="M60 9 v10 M940 9 v10"/>
-          <text class="svgtext" x="500" y="10" text-anchor="middle">SUPPLY ENVELOPE</text>
-
-          <g id="jawTop">
-            <path class="ln-th" d="M60 40 H940 V86 H60 Z"/>
-            <path class="hatch" d="M60 40 H940 V86 H60 Z"/>
-            <path class="ln" d="M60 86 l30 30 l30 -30 l30 30 l30 -30 l30 30 l30 -30 l30 30 l30 -30 l30 30 l30 -30 l30 30 l30 -30 l30 30 l30 -30 l30 30 l30 -30 l30 30 l30 -30 l30 30 l30 -30 l30 30 l30 -30 l30 30 l30 -30 l30 30 l30 -30 l30 30 l30 -30 l30 30 l30 -30"/>
-          </g>
-
-          <g id="jawBot">
-            <path class="ln-th" d="M60 300 H940 V254 H60 Z"/>
-            <path class="hatch" d="M60 254 H940 V300 H60 Z"/>
-            <path class="ln" d="M60 254 l30 -30 l30 30 l30 -30 l30 30 l30 -30 l30 30 l30 -30 l30 30 l30 -30 l30 30 l30 -30 l30 30 l30 -30 l30 30 l30 -30 l30 30 l30 -30 l30 30 l30 -30 l30 30 l30 -30 l30 30 l30 -30 l30 30 l30 -30 l30 30 l30 -30 l30 30 l30 -30 l30 30 l30 -30"/>
-          </g>
-
-          <!-- leader lines and balloons -->
-          <g id="leaders">
-            <path class="ln-lead" d="M150 63 L92 150"/>
-            <circle class="balloon" cx="84" cy="162" r="14"/>
-            <text class="balloon-t" x="84" y="167">1</text>
-
-            <path class="ln-lead" d="M850 277 L908 190"/>
-            <circle class="balloon" cx="916" cy="178" r="14"/>
-            <text class="balloon-t" x="916" y="183">2</text>
-
-            <path class="ln-lead" d="M500 322 L500 336"/>
-            <circle class="balloon" cx="500" cy="322" r="0"/>
-          </g>
-
-          <!-- gap dimension, right -->
-          <line class="ln-dim" id="gapDimTop" x1="960" y1="86" x2="960" y2="254"/>
-          <text class="svgtext mk" id="gapLabel" x="968" y="174">GAP</text>
-        </svg>
-
-        <div class="readout" id="readout">
-          <div class="num" id="supply">1,000,000</div>
-          <div class="cap">Staked sJAW</div>
+      <div class="panel-b">
+        <div class="clampbox">
+          <svg viewBox="0 0 520 230" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <g id="jawTop">
+              <path class="jaw-side" d="M30 20 H490 V62 H30 Z"/>
+              <path class="jaw-top" d="M30 20 H490 V36 H30 Z"/>
+              <path class="jaw-side" d="M30 62 l23 26 l23 -26 l23 26 l23 -26 l23 26 l23 -26 l23 26 l23 -26 l23 26 l23 -26 l23 26 l23 -26 l23 26 l23 -26 l23 26 l23 -26 l23 26 l23 -26 l23 26 l23 -26 Z"/>
+              <path class="jaw-line" d="M30 20 H490 V62 l-23 26 l-23 -26 l-23 26 l-23 -26 l-23 26 l-23 -26 l-23 26 l-23 -26 l-23 26 l-23 -26 l-23 26 l-23 -26 l-23 26 l-23 -26 l-23 26 l-23 -26 l-23 26 l-23 -26 l-23 26 l-23 -26 Z"/>
+            </g>
+            <g id="jawBot">
+              <path class="jaw-side" d="M30 210 H490 V168 H30 Z"/>
+              <path class="jaw-dark" d="M30 194 H490 V210 H30 Z"/>
+              <path class="jaw-side" d="M30 168 l23 -26 l23 26 l23 -26 l23 26 l23 -26 l23 26 l23 -26 l23 26 l23 -26 l23 26 l23 -26 l23 26 l23 -26 l23 26 l23 -26 l23 26 l23 -26 l23 26 l23 -26 l23 26 l23 -26 Z"/>
+              <path class="jaw-line" d="M30 210 H490 V168 l-23 -26 l-23 26 l-23 -26 l-23 26 l-23 -26 l-23 26 l-23 -26 l-23 26 l-23 -26 l-23 26 l-23 -26 l-23 26 l-23 -26 l-23 26 l-23 -26 l-23 26 l-23 -26 l-23 26 l-23 -26 l-23 26 l-23 -26 Z"/>
+            </g>
+          </svg>
+          <div class="readout" id="readout">
+            <div class="num" id="supply">1,000,000</div>
+            <div class="cap">STAKED sJAW</div>
+          </div>
         </div>
+
+        <div class="panel-rows">
+          <div class="prow"><div class="k">CURRENT APY</div><div class="v">41,204%</div></div>
+          <div class="prow"><div class="k">REBASE / EPOCH</div><div class="v">0.412%</div></div>
+        </div>
+        <p class="note">Demo readout. Figures shown are default parameters, not live chain state, and no transaction occurs on this page.</p>
       </div>
     </div>
+  </div>
+</header>
 
-    <div class="notes">
-      <span class="tag">Assembly notes</span>
+<div class="marq">
+  <div class="marq-in">
+    <span>LOCKJAW · STAKE · BALANCE GROWS EVERY EPOCH</span>
+    <span>LOCKJAW · BOND · DISCOUNT VESTED OVER 5 DAYS</span>
+    <span>LOCKJAW · TREASURY · BACKS A FLOOR NOT A PRICE</span>
+    <span>LOCKJAW · 8 HOUR EPOCHS · 3 REBASES A DAY</span>
+    <span>LOCKJAW · STAKE · BALANCE GROWS EVERY EPOCH</span>
+    <span>LOCKJAW · BOND · DISCOUNT VESTED OVER 5 DAYS</span>
+    <span>LOCKJAW · TREASURY · BACKS A FLOOR NOT A PRICE</span>
+    <span>LOCKJAW · 8 HOUR EPOCHS · 3 REBASES A DAY</span>
+  </div>
+</div>
 
-      <div class="note">
-        <div class="no">ITEM 1</div>
+<section id="mech">
+  <div class="wrap">
+    <div class="sec-h">
+      <span class="sec-n">01</span>
+      <span class="sec-t">THE THREE MECHANISMS</span>
+    </div>
+    <h2>What the protocol actually does</h2>
+    <p class="lead">Three parts, all inherited from the OHM design. Nothing here is reinvented. It runs on Robinhood Chain, where the mechanism has not run before.</p>
+
+    <div class="cards">
+      <div class="card">
+        <div class="cubewrap">
+          <svg class="cube" viewBox="0 0 80 80" aria-hidden="true">
+            <path d="M40 8 L72 26 L40 44 L8 26 Z" fill="var(--stake-top)" stroke="#21103a" stroke-width="3" stroke-linejoin="round"/>
+            <path d="M8 26 L40 44 L40 72 L8 54 Z" fill="var(--stake-side)" stroke="#21103a" stroke-width="3" stroke-linejoin="round"/>
+            <path d="M72 26 L40 44 L40 72 L72 54 Z" fill="var(--stake-dark)" stroke="#21103a" stroke-width="3" stroke-linejoin="round"/>
+          </svg>
+          <span class="idx">01</span>
+        </div>
         <h3>Stake</h3>
-        <div>
-          <p>Deposit JAW and receive sJAW one for one. Every eight hours the contract raises every sJAW balance by the rebase rate. Nothing to claim, nothing to harvest. The number in the wallet changes on its own.</p>
-          <p>Unstake at any time and receive JAW back at the current ratio.</p>
-        </div>
+        <p>Deposit JAW, receive sJAW one for one. Every eight hours the contract raises every sJAW balance by the rebase rate.</p>
+        <p>Unstake whenever you want and get JAW back at the current ratio.</p>
+        <div class="foot">NOTHING TO CLAIM</div>
       </div>
 
-      <div class="note">
-        <div class="no">ITEM 2</div>
+      <div class="card">
+        <div class="cubewrap">
+          <svg class="cube" viewBox="0 0 80 80" aria-hidden="true">
+            <path d="M40 8 L72 26 L40 44 L8 26 Z" fill="var(--bond-top)" stroke="#21103a" stroke-width="3" stroke-linejoin="round"/>
+            <path d="M8 26 L40 44 L40 72 L8 54 Z" fill="var(--bond-side)" stroke="#21103a" stroke-width="3" stroke-linejoin="round"/>
+            <path d="M72 26 L40 44 L40 72 L72 54 Z" fill="var(--bond-dark)" stroke="#21103a" stroke-width="3" stroke-linejoin="round"/>
+          </svg>
+          <span class="idx">02</span>
+        </div>
         <h3>Bond</h3>
-        <div>
-          <p>Sell liquidity or a reserve asset to the treasury, receive JAW at a discount, vested linearly across five days. Bonding is how the treasury takes assets on, and the discount is what pays for the lockup.</p>
-          <p>Bond pricing tracks demand. Heavy bonding compresses the discount, quiet periods widen it.</p>
-        </div>
+        <p>Sell liquidity or a reserve asset to the treasury and get JAW at a discount, vested linearly over five days.</p>
+        <p>Heavy bonding compresses the discount, quiet periods widen it.</p>
+        <div class="foot">5 DAY LINEAR VEST</div>
       </div>
 
-      <div class="note">
-        <div class="no">ITEM 3</div>
+      <div class="card">
+        <div class="cubewrap">
+          <svg class="cube" viewBox="0 0 80 80" aria-hidden="true">
+            <path d="M40 8 L72 26 L40 44 L8 26 Z" fill="var(--trez-top)" stroke="#21103a" stroke-width="3" stroke-linejoin="round"/>
+            <path d="M8 26 L40 44 L40 72 L8 54 Z" fill="var(--trez-side)" stroke="#21103a" stroke-width="3" stroke-linejoin="round"/>
+            <path d="M72 26 L40 44 L40 72 L72 54 Z" fill="var(--trez-dark)" stroke="#21103a" stroke-width="3" stroke-linejoin="round"/>
+          </svg>
+          <span class="idx">03</span>
+        </div>
         <h3>Treasury</h3>
-        <div>
-          <p>Everything bonded stays in the treasury and backs the supply. Each JAW is nominally backed by a fraction of what is held, which sets a floor rather than a price.</p>
-          <p>Market price trades independently of backing, above it and below it.</p>
-        </div>
-      </div>
-
-      <div class="caution">
-        <div class="caution-h">General notes / read before staking</div>
-        <div class="caution-b">
-          <ol>
-            <li><b>The APY is supply expansion, not income.</b> It comes from the protocol printing tokens and dividing them among stakers. It is not interest, fees, or revenue from outside the system. If supply grows faster than demand, price per token falls while the balance rises.</li>
-            <li><b>Rebasing protects nobody on its own.</b> Holding a growing count of tokens only pays if the token holds value. Track the position in what was deposited, not in token count.</li>
-            <li><b>Every protocol built on this mechanism has been highly volatile.</b> Most fell sharply once new deposits slowed. Treat that as the expected pattern, size accordingly, and commit only what can be lost in full.</li>
-          </ol>
-        </div>
+        <p>Everything bonded stays in the treasury and backs the supply. Each JAW is nominally backed by a fraction of what is held.</p>
+        <p>That sets a floor, not a price. The market trades above it and below it.</p>
+        <div class="foot">BACKING IS A FLOOR</div>
       </div>
     </div>
 
-    <div class="sched">
+    <div class="readfirst">
+      <div class="rh">READ THIS BEFORE YOU STAKE</div>
+      <div class="rb">
+        <p><b>The APY is supply expansion, not income.</b> It comes from the protocol printing tokens and splitting them among stakers. It is not interest, fees, or revenue from outside the system. If supply grows faster than demand, the price per token falls while your balance rises.</p>
+        <p><b>Rebasing protects nobody on its own.</b> Holding a growing count of tokens only pays if the token holds value. Track your position in what you deposited, not in token count.</p>
+        <p><b>Every protocol built on this mechanism has been highly volatile.</b> Most fell hard once new deposits slowed. Treat that as the expected pattern, size accordingly, and only commit what you can lose in full.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="params" style="padding-top:0">
+  <div class="wrap">
+    <div class="sec-h">
+      <span class="sec-n">02</span>
+      <span class="sec-t">PARAMETERS</span>
+    </div>
+    <h2>Everything set at launch</h2>
+    <p class="lead">These are the values the contracts run on. Verify them on chain rather than taking this page's word for it.</p>
+
+    <div class="params">
       <table>
-        <caption class="tag">Schedule of parameters</caption>
-        <thead>
-          <tr><th>Parameter</th><th>Value</th></tr>
-        </thead>
         <tbody>
-          <tr><td>Network</td><td>Robinhood Chain <em>/ 4663</em></td></tr>
-          <tr><td>Token</td><td>JAW <em>/ 9 decimals</em></td></tr>
-          <tr><td>Staked token</td><td>sJAW <em>/ rebasing</em></td></tr>
-          <tr><td>Epoch length</td><td>8 hours <em>/ 3 per day</em></td></tr>
-          <tr><td>Rebase rate</td><td>0.412% <em>per epoch</em></td></tr>
-          <tr><td>Current APY</td><td><b>41,204%</b></td></tr>
-          <tr><td>Bond vesting</td><td>5 days <em>linear</em></td></tr>
-          <tr><td>Token contract</td><td>Not deployed <em>/ published at launch</em></td></tr>
+          <tr><td>NETWORK</td><td>Robinhood Chain <em>/ 4663</em></td></tr>
+          <tr><td>TOKEN</td><td>JAW <em>/ 9 decimals</em></td></tr>
+          <tr><td>STAKED TOKEN</td><td>sJAW <em>/ rebasing</em></td></tr>
+          <tr><td>EPOCH LENGTH</td><td>8 hours <em>/ 3 per day</em></td></tr>
+          <tr><td>REBASE RATE</td><td>0.412% <em>per epoch</em></td></tr>
+          <tr><td>CURRENT APY</td><td><b>41,204%</b></td></tr>
+          <tr><td>BOND VESTING</td><td>5 days <em>linear</em></td></tr>
+          <tr><td>TOKEN CONTRACT</td><td>Not deployed <em>/ published at launch</em></td></tr>
+          <tr><td>DEV</td><td>
+            <a class="xl" href="https://x.com/sayinshallah" target="_blank" rel="noopener">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+              @sayinshallah
+            </a>
+          </td></tr>
         </tbody>
       </table>
     </div>
-
-    <div class="tblock">
-      <div class="cell"><div class="k">Project</div><div class="v">Lockjaw</div></div>
-      <div class="cell"><div class="k">Network</div><div class="v">RH 4663</div></div>
-      <div class="cell"><div class="k">Sheet</div><div class="v">1 of 1</div></div>
-      <div class="cell wide"><div class="k">Drawn by</div>
-        <div class="v">
-          <a class="xlink" href="https://x.com/sayinshallah" target="_blank" rel="noopener">
-            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
-            @sayinshallah
-          </a>
-        </div>
-      </div>
-    </div>
-
   </div>
+</section>
 
-  <div class="foot">
-    <span class="tag">Lockjaw / drawing LOCKJAW-01</span>
-    <a class="tag xlink" href="https://x.com/sayinshallah" target="_blank" rel="noopener">
+<footer>
+  <div class="wrap fl">
+    <span>Lockjaw · rebase token on Robinhood Chain 4663 · not financial advice</span>
+    <a class="xl" href="https://x.com/sayinshallah" target="_blank" rel="noopener">
       <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
       @sayinshallah
     </a>
   </div>
-
-</div>
+</footer>
 
 <script>
 (function(){
-  var CYCLE = 15000;
-  var supply = 1000000, rate = 0.00412, n = 1;
+  var CYCLE = 15000, supply = 1000000, rate = 0.00412, n = 1;
   var start = Date.now();
   var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-
-  var jt = document.getElementById('jawTop'),
-      jb = document.getElementById('jawBot'),
-      sup = document.getElementById('supply'),
-      ep = document.getElementById('epochNo'),
-      ro = document.getElementById('readout'),
-      dim = document.getElementById('gapDimTop'),
-      glab = document.getElementById('gapLabel');
+  var jt=document.getElementById('jawTop'), jb=document.getElementById('jawBot'),
+      sup=document.getElementById('supply'), ep=document.getElementById('epochNo'),
+      ro=document.getElementById('readout');
 
   function fmt(v){ return Math.round(v).toLocaleString('en-US'); }
-
   function snap(){
-    supply *= (1 + rate); n++;
-    sup.textContent = fmt(supply);
-    ep.textContent = 'Cycle ' + String(n).padStart(4,'0');
+    supply*=(1+rate); n++;
+    sup.textContent=fmt(supply);
+    ep.textContent='EPOCH '+String(n).padStart(4,'0');
     ro.classList.add('snap');
-    setTimeout(function(){ ro.classList.remove('snap'); }, 480);
+    setTimeout(function(){ ro.classList.remove('snap'); },450);
   }
-
-  sup.textContent = fmt(supply);
-  var last = 0;
-
+  sup.textContent=fmt(supply);
+  var last=0;
   function frame(){
-    var t = (Date.now()-start) % CYCLE, p = t/CYCLE;
-    if (t < last) snap();
-    last = t;
-
-    var travel = 62 * Math.pow(p, 2.1);
+    var t=(Date.now()-start)%CYCLE, p=t/CYCLE;
+    if(t<last) snap();
+    last=t;
     if(!reduce){
-      jt.setAttribute('transform','translate(0,'+travel.toFixed(2)+')');
-      jb.setAttribute('transform','translate(0,'+(-travel).toFixed(2)+')');
-      dim.setAttribute('y1', (86+travel).toFixed(1));
-      dim.setAttribute('y2', (254-travel).toFixed(1));
-      glab.textContent = (168 - travel*2).toFixed(0);
+      var d=44*Math.pow(p,2.1);
+      jt.setAttribute('transform','translate(0,'+d.toFixed(2)+')');
+      jb.setAttribute('transform','translate(0,'+(-d).toFixed(2)+')');
     }
     requestAnimationFrame(frame);
   }
